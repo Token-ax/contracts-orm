@@ -1,0 +1,88 @@
+{
+  "contracts": {
+    "PublicMessage": {
+      "fields": {
+        "time": "timestamp",
+        "message": "string",
+        "sender": "address"
+      },
+      "write-rules": {
+        "auto": {
+          "sender": "msg.sender",
+          "time": "block.timestamp"
+        },
+        "init": [
+          "message"
+        ]
+      },
+      "read-rules": {
+        "gets": "all"
+      }
+    },
+    "PrivateMessage": {
+      "fields": {
+        "encrypted_message": "string",
+        "alice": "address",
+        "bob": "address",
+        "bob_public": "string",
+        "stage": "uint256",
+        "bob_error": "bool",
+        "time": "block.timestamp"
+      },
+      "read-rules": {
+        "gets": "all"
+      },
+      "write-rules": {
+        "auto": {
+          "alice": "msg.sender",
+          "time": "block.timestamp"
+        },
+        "init": [
+          "bob"
+        ],
+        "bob_reply": {
+          "set": {
+            "pass-in": [
+              "bob_public"
+            ],
+            "force": {
+              "stage": 2
+            }
+          },
+          "require": {
+            "stage": 1,
+            "tx.origin": "bob"
+          }
+        },
+        "alice_send_encrypted_message": {
+          "set": {
+            "pass-in": [
+              "encrypted_message"
+            ],
+            "force": {
+              "stage": 3
+            }
+          },
+          "require": {
+            "stage": 2,
+            "tx.origin": "alice"
+          }
+        }
+      },
+      "bob_final": {
+        "set": {
+          "pass-in": [
+            "error"
+          ],
+          "force": {
+            "stage": 4
+          }
+        },
+        "require": {
+          "stage": 3,
+          "tx.origin": "bob"
+        }
+      }
+    }
+  }
+}
