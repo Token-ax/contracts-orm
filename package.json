@@ -1,0 +1,13 @@
+{
+  "name": "contracts-orm",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/Token-ax/contracts-orm.git",
+  "license": "MIT",
+  "scripts": {
+    "run": "sh run.sh"
+  },
+  "dependencies": {
+    "prettier": "^2.2.1"
+  }
+}
