@@ -120,19 +120,38 @@ function new_${ContractName}(`
   
   
         
-  address mynew = address(new ${ContractName}({_text:text }));
-  if(!user_map[msg.sender].exists){
-    user_map[msg.sender]=create_txtr_on_receive(msg.sender);
-  }
-  user_map[msg.sender].all_public_messages.push(message);
-  public_messages.push(message);
-  public_messages_length+=1;
-  emit NewPublicMessage(message, message_text,msg.sender);
+  address mynew = address(new ${ContractName}({`
+ 
+    //add all the pass-in methods
+    contract['initRules']['passIn'].forEach((element, index) => {
+        const type = fields[element]
+        template += `_${element} : ${element}` 
+        if (index != contract['initRules']['passIn'].length - 1) {
+            template += `, `
+        }
+    });
 
-  return message;
+template +=`
+}));
+  if(!user_map[msg.sender].exists){
+    user_map[msg.sender]=create_user_on_new_${ContractName}(mynew);
+  }
+  user_map[msg.sender].${ContractName}_list.push(mynew);
+
+${ContractName}_list.push(mynew);
+${ContractName}_list_length+=1;
+ // emit NewPublicMessage(message, message_text,msg.sender);
+
+  return mynew;
   
 }
 
+
+function  create_user_on_new_${ContractName}(address addr) private returns (UserInfo){
+    address[]storage ${ContractName}_list;
+    UserInfoList.push(addr);
+    return UserInfo({exists:true, owner:addr,  ${ContractName}_list:  ${ContractName}_list, Tweets_list_length:1});
+}
 
 
 }
