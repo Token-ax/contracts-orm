@@ -1,0 +1,28 @@
+{
+  "contracts": {
+    "Tweets": {
+      "fields": {
+        "timestamp": "uint",
+        "text": "string",
+        "sender": "address"
+      },
+      "initRules": {
+        "passIn": [
+          "text"
+        ],
+        "auto": {
+          "sender": "msg.sender",
+          "timestamp": "block.timestamp"
+        }
+      },
+      "writeRules": {},
+      "readRules": {
+        "gets": [
+          "text",
+          "timestamp",
+          "sender"
+        ]
+      }
+    }
+  }
+}
