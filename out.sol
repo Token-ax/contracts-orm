@@ -1,27 +1,33 @@
-pragma solidity ^0.8;
+pragma solidity ^0.4.26;
 pragma experimental ABIEncoderV2;
 
 contract Tweets {
     uint256 timestamp;
     string text;
     address sender;
+    string location;
 
-    constructor(string memory _text) {
+    function Tweets(string _text, string _location) {
         sender = msg.sender;
         timestamp = block.timestamp;
         text = _text;
+        location = _location;
     }
 
-    function get_text() public returns (string memory) {
+    function get_text() returns (string) {
         return text;
     }
 
-    function get_timestamp() public returns (uint256) {
+    function get_timestamp() returns (uint256) {
         return timestamp;
     }
 
-    function get_sender() public returns (address) {
+    function get_sender() returns (address) {
         return sender;
+    }
+
+    function get_location() returns (string) {
+        return location;
     }
 }
 
@@ -40,8 +46,8 @@ contract App {
     address[] UserInfoList;
     uint256 UserInfoListLength;
 
-    function new_Tweets(string memory text) public returns (address) {
-        address mynew = address(new Tweets({_text: text}));
+    function new_Tweets(string text, string location) returns (address) {
+        address mynew = address(new Tweets({_text: text, _location: location}));
         if (!user_map[msg.sender].exists) {
             user_map[msg.sender] = create_user_on_new_Tweets(mynew);
         }

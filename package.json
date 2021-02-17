@@ -5,9 +5,10 @@
   "repository": "https://github.com/Token-ax/contracts-orm.git",
   "license": "MIT",
   "scripts": {
-    "run": "sh run.sh"
+    "build": "sh build.sh"
   },
   "dependencies": {
-    "prettier": "^2.2.1"
+    "prettier": "^2.2.1",
+    "prettier-plugin-solidity": "^1.0.0-beta.5"
   }
 }

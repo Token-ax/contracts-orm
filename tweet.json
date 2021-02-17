@@ -4,11 +4,12 @@
       "fields": {
         "timestamp": "uint",
         "text": "string",
-        "sender": "address"
+        "sender": "address",
+        "location":"string"
       },
       "initRules": {
         "passIn": [
-          "text"
+          "text", "location"
         ],
         "auto": {
           "sender": "msg.sender",
@@ -20,7 +21,8 @@
         "gets": [
           "text",
           "timestamp",
-          "sender"
+          "sender",
+          "location"
         ]
       }
     }
