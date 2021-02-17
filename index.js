@@ -71,7 +71,7 @@ for (const ContractName in contracts) {
     template += `
   address[] ${ContractName}_list; 
   uint256 ${ContractName}_list_length;
-  event NewJobs(address creater); //todo loop and fill out fields
+  //event NewJobs(address creater); //todo loop and fill out fields
   `
 
 }
@@ -87,12 +87,14 @@ template += `
 for (const ContractName in contracts) {
     template += `\taddress[] ${ContractName}_list;
   uint256 ${ContractName}_list_length;
-}`
+`
 }
 
 
 
-template += `mapping(address => UserInfo) public user_map;
+template += `
+}
+mapping(address => UserInfo) public user_map;
 \taddress[] UserInfoList;
 uint256 UserInfoListLength;
 `;
@@ -154,10 +156,13 @@ function  create_user_on_new_${ContractName}(address addr) private returns (User
 }
 
 
-}
+
 
 `
+
 }
+
+template += '}'
 console.log(template)
 
 //todo create the parent contract and the events

@@ -1,16 +1,14 @@
 {
   "contracts": {
-    "Tweets": {
+    "Media": {
       "fields": {
         "timestamp": "uint",
-        "text": "string",
+        "url": "string",
         "sender": "address",
-        "location":"string"
+        "media_type": "string"
       },
       "initRules": {
-        "passIn": [
-          "text", "location"
-        ],
+        "passIn": ["url", "media_type"],
         "auto": {
           "sender": "msg.sender",
           "timestamp": "block.timestamp"
@@ -18,12 +16,26 @@
       },
       "writeRules": {},
       "readRules": {
-        "gets": [
-          "text",
-          "timestamp",
-          "sender",
-          "location"
-        ]
+        "gets": ["url", "timestamp", "sender", "media_type"]
+      }
+    },
+    "Tweets": {
+      "fields": {
+        "timestamp": "uint",
+        "text": "string",
+        "sender": "address",
+        "location": "string"
+      },
+      "initRules": {
+        "passIn": ["text", "location"],
+        "auto": {
+          "sender": "msg.sender",
+          "timestamp": "block.timestamp"
+        }
+      },
+      "writeRules": {},
+      "readRules": {
+        "gets": ["text", "timestamp", "sender", "location"]
       }
     }
   }
