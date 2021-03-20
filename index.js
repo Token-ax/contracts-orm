@@ -94,6 +94,32 @@ function get_${ContractName}_list_length() returns (uint256){
   //event NewJobs(address creater); //todo loop and fill out fields
   `
 
+
+  //get all
+
+  const get_all_types = [];
+  const get_all_fields = [];
+  contract.readRules.gets.forEach(field => {
+      const type = fields[field]
+      get_all_types.push(type);
+      get_all_fields.push(field)
+  });
+  get_all_fields_string = get_all_fields.join(", ")
+  get_all_types_string = get_all_types.join(", ")
+
+  template +=`
+  function get_${ContractName}_N(uint256 index) returns (${get_all_types_string}){
+      return ${ContractName}(${ContractName}_list[index]).getall();
+  }`
+  
+
+
+
+
+
+
+
+
 }
 
 //create the equivalent of the users tables
