@@ -152,6 +152,8 @@ for (const ContractName in contracts) {
 
     template += `
 
+    event New${ContractName}(address sender); 
+
 function new_${ContractName}(`
 
 
@@ -181,16 +183,16 @@ function new_${ContractName}(`
 
 template +=`
 }));
-  if(!user_map[msg.sender].exists){
-    user_map[msg.sender]=create_user_on_new_${ContractName}(mynew);
+  if(!user_map[tx.origin].exists){
+    user_map[tx.origin]=create_user_on_new_${ContractName}(mynew);
   }
-  user_map[msg.sender].${ContractName}_list.push(mynew);
+  user_map[tx.origin].${ContractName}_list.push(mynew);
 
 ${ContractName}_list.push(mynew);
 ${ContractName}_list_length+=1;
 
 
- // emit NewPublicMessage(message, message_text,msg.sender);
+  emit New${ContractName}(tx.origin);
 
   return mynew;
   

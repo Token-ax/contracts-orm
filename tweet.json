@@ -1,41 +1,21 @@
 {
   "contracts": {
-    "Media": {
-      "fields": {
-        "timestamp": "uint",
-        "url": "string",
-        "sender": "address",
-        "media_type": "string"
-      },
-      "initRules": {
-        "passIn": ["url", "media_type"],
-        "auto": {
-          "sender": "msg.sender",
-          "timestamp": "block.timestamp"
-        }
-      },
-      "writeRules": {},
-      "readRules": {
-        "gets": ["url", "timestamp", "sender", "media_type"]
-      }
-    },
     "Tweets": {
       "fields": {
         "timestamp": "uint",
         "text": "string",
-        "sender": "address",
-        "location": "string"
+        "sender": "address"
       },
       "initRules": {
-        "passIn": ["text", "location"],
+        "passIn": ["text"],
         "auto": {
-          "sender": "msg.sender",
+          "sender": "tx.origin",
           "timestamp": "block.timestamp"
         }
       },
       "writeRules": {},
       "readRules": {
-        "gets": ["text", "timestamp", "sender", "location"]
+        "gets": ["text", "timestamp", "sender"]
       }
     }
   }

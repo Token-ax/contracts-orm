@@ -105,7 +105,9 @@ contract App {
                 exists: true,
                 owner: addr,
                 Media_list: Media_list,
-                Tweets_list_length: 1
+                Media_list_length: 0,
+                Tweets_list: Tweets_list,
+                Tweets_list_length: 0
             });
     }
 
@@ -133,8 +135,10 @@ contract App {
             UserInfo({
                 exists: true,
                 owner: addr,
+                Media_list: Media_list,
+                Media_list_length: 0,
                 Tweets_list: Tweets_list,
-                Tweets_list_length: 1
+                Tweets_list_length: 0
             });
     }
 }

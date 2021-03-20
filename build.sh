@@ -1,2 +1,2 @@
-node index.js > out.sol
-npx prettier --write 'out.sol'
+node index.js > contracts/App.sol
+npx prettier --write 'contracts/App.sol'
