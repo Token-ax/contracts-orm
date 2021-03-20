@@ -89,36 +89,46 @@ for (const ContractName in contracts) {
 
 function get_${ContractName}_list_length() returns (uint256){
     return ${ContractName}_list_length;
-}
-
-  //event NewJobs(address creater); //todo loop and fill out fields
-  `
+}`
 
 
   //get all
 
   const get_all_types = [];
+  const get_all_types_array = []
   const get_all_fields = [];
   contract.readRules.gets.forEach(field => {
       const type = fields[field]
       get_all_types.push(type);
+      get_all_types_array.push(type+"[]")
       get_all_fields.push(field)
   });
-  get_all_fields_string = get_all_fields.join(", ")
-  get_all_types_string = get_all_types.join(", ")
+  const get_all_fields_string = get_all_fields.join(", ")
+  const get_all_types_string = get_all_types.join(", ")
+  const get_all_types_array_string = get_all_types_array.join(", ")
 
   template +=`
   function get_${ContractName}_N(uint256 index) returns (${get_all_types_string}){
       return ${ContractName}(${ContractName}_list[index]).getall();
-  }`
+  }
+
+
   
-
-
-
-
-
-
-
+  function get_last_${ContractName}_N(uint256 count, uint256 offset) returns (${get_all_types_array_string}){`
+  contract.readRules.gets.forEach(field => {
+    const type = fields[field]
+    template += `${type}[] memory ${field} = new ${type}[](count);`
+  })
+    template +=   `for (uint i = offset; i < count; i++) {
+        ${ContractName}  my${ContractName} = ${ContractName}(${ContractName}_list[i+offset]);`
+        contract.readRules.gets.forEach(field => {
+            template += `${field}[i+offset] = my${ContractName}.get_${field}();`
+        })
+    template += `}
+    return (${get_all_fields_string});
+    }`
+  
+  
 
 }
 
