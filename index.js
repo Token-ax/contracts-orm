@@ -53,6 +53,21 @@ for (const ContractName in contracts) {
 
 
     //read rules
+    const get_all_types = [];
+    const get_all_fields = [];
+    contract.readRules.gets.forEach(field => {
+        const type = fields[field]
+        get_all_types.push(type);
+        get_all_fields.push(field)
+    });
+    get_all_fields_string = get_all_fields.join(", ")
+    get_all_types_string = get_all_types.join(", ")
+
+    template +=`
+    function getall() returns (${get_all_types_string}){
+        return (${get_all_fields_string});
+    }`
+    
 
     contract.readRules.gets.forEach(field => {
         const type = fields[field]
@@ -71,6 +86,11 @@ for (const ContractName in contracts) {
     template += `
   address[] ${ContractName}_list; 
   uint256 ${ContractName}_list_length;
+
+function get_${ContractName}_list_length() returns (uint256){
+    return ${ContractName}_list_length;
+}
+
   //event NewJobs(address creater); //todo loop and fill out fields
   `
 
@@ -142,6 +162,8 @@ template +=`
 
 ${ContractName}_list.push(mynew);
 ${ContractName}_list_length+=1;
+
+
  // emit NewPublicMessage(message, message_text,msg.sender);
 
   return mynew;
@@ -152,7 +174,17 @@ ${ContractName}_list_length+=1;
 function  create_user_on_new_${ContractName}(address addr) private returns (UserInfo){
     address[]storage ${ContractName}_list;
     UserInfoList.push(addr);
-    return UserInfo({exists:true, owner:addr,  ${ContractName}_list:  ${ContractName}_list, Tweets_list_length:1});
+    return UserInfo({exists:true, owner:addr,  
+        
+      
+    `
+    for (const ContractName in contracts) {
+        template += `${ContractName}_list : ${ContractName}_list, 
+       ${ContractName}_list_length : 0,
+    `
+    }
+    
+  template +=  `});
 }
 
 
