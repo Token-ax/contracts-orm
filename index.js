@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-let rawdata = fs.readFileSync('tweet.json');
+let rawdata = fs.readFileSync('contracts.json');
 let program = JSON.parse(rawdata);
 //console.log(JSON.stringify(program,null,4));
 
