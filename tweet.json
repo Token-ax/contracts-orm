@@ -13,6 +13,7 @@
           "timestamp": "block.timestamp"
         }
       },
+      "is":{"ERC721Full":true},
       "writeRules": {},
       "readRules": {
         "gets": ["text", "timestamp", "sender"]
