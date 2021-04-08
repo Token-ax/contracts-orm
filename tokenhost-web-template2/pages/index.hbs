@@ -1,0 +1,19 @@
+import React, { Component, useEffect, useState } from 'react'
+
+import { setupAccounts } from '../helpers/Web3Helper'
+
+export default (props) => {
+  useEffect(() => {
+    setupAccounts()
+  }, [])
+
+  return (
+    <div className="container">
+    {{#each contracts}} 
+      <div className="buttons">
+        <a className="button is-warning has-text-white"  href="/{{@key}}">{{@key}}</a> 
+      </div>
+ {{/each}}
+    </div>
+  )
+}

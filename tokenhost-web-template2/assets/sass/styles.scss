@@ -1,0 +1,22 @@
+$primary: #0528f2;
+$link: #4cb1f7;
+$widescreen-enabled: false;
+$fullhd-enabled: false;
+$warning: #ffc700;
+$danger: #f40026;
+
+// Update some of Bulma's component variables
+$body-background-color: #4cb1f7;
+
+@import "../../node_modules/bulma/bulma.sass";
+@import url("https://fonts.googleapis.com/css?family=Montserrat");
+* {
+  font-family: "Montserrat";
+}
+
+.button { border-radius: 0; font-weight:bold;}
+.input { border-radius: 0;}
+
+.input {
+  border: 3px solid #0528F2  !important;
+}
