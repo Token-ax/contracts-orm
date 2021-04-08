@@ -5,9 +5,10 @@
   "repository": "https://github.com/Token-ax/contracts-orm.git",
   "license": "MIT",
   "scripts": {
-    "build": "sh build.sh; cd contracts; solcjs --bin --abi -o . App.sol; cp App_sol_App.abi App_sol_App.json "
+    "build": "sh build.sh;  "
   },
   "dependencies": {
+    "hbs": "^4.1.1",
     "prettier": "^2.2.1",
     "prettier-plugin-solidity": "^1.0.0-beta.5",
     "solc": "0.4.26"
