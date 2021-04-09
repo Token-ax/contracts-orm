@@ -4,7 +4,14 @@ import { auth } from '../../lib/db'
 import { contract, w3 } from '../../helpers/Web3Helper'
 
 export default function Send() {
-  const [message, setMessage] = useState()
+
+  {{#each contract_data.initRules.passIn}}
+    const [{{this}}, set{{this}}] = useState() {{! loop over the pass in elements contract_data.initRules.passIn}}
+  {{/each}}
+
+
+
+
   const [errorMessage, setErrorMessage] = useState()
   const [sendStatus, setSendStatus] = useState()
   const [user, setUser] = useState(false)
@@ -17,20 +24,29 @@ export default function Send() {
 
   const mySubmitHandler = async (event) => {
     event.preventDefault()
-    if (message === '') {
-      setErrorMessage('Your message cannot be empty')
-    } else {
+    {{! loop over the pass in elements contract_data.initRules.passIn}}
+    let fail = false;
+    if ({{contract_data.initRules.passIn.[0]}} === '') {
+      setErrorMessage('Your {{contract_data.initRules.passIn.[0]}} cannot be empty')
+      fail = true;
+    } 
+    if(fail){
+
+    }
+    else {
       setSendStatus('Sending')
       contract.methods
-        .new_{{contract}}(message)
+        .new_{{contract}}({{contract_data.initRules.passIn}}) {{! loop over the pass in elements contract_data.initRules.passIn}}
         .estimateGas()
         .then((gasEstimate) => {
           contract.methods
-            .new_{{contract}}(message)
+            .new_{{contract}}({{contract_data.initRules.passIn}}) {{! loop over the pass in elements contract_data.initRules.passIn}}
             .send({ gas: gasEstimate  })
             .then(() => {
               setSendStatus('')
-              setMessage('')
+                {{#each contract_data.initRules.passIn}}
+                  set{{this}}("")
+                {{/each}}
             })
         })
     }
@@ -38,16 +54,58 @@ export default function Send() {
   if (user) {
     return (
       <form className="p-6" onSubmit={mySubmitHandler}>
+
+
+
+        {{#if contract_data.initRules.passIn.[1]}}
+
+        {{#each contract_data.initRules.passIn}}
+
+        <div className="field">
+          <label className="label">{{this}}</label>
+          <div className="control">
+            <input className="input" type="text" placeholder="Type your {{this}} here..."
+              name="{{this}}"
+              value={ {{this}}    }
+              onChange={(event) => set{{this}}(event.target.value)}
+
+            />
+          </div>
+        </div>
+
+        {{/each}}  
+
+<div className="field is-grouped">
+  <div className="control">
+    <input  className={
+                sendStatus === 'Sending'
+                  ? 'button is-info is-bold'
+                  : 'button is-warning has-text-white is-bold'
+              }
+              type="submit"
+              value={sendStatus === 'Sending' ? 'Sharing...' : 'Share'}
+              />
+  </div>
+</div>
+
+
+        {{else}}
+
+
+
+
+
+
         <div className="field is-grouped">
           <p className="control is-expanded">
             <input
               autoComplete="off"
               className="input"
-              placeholder="Type your message here..."
+              placeholder="Type your {{contract_data.initRules.passIn.[0]}} here..."
               type="text"
-              name="message"
-              value={message}
-              onChange={(event) => setMessage(event.target.value)}
+              name="{{contract_data.initRules.passIn.[0]}}"
+              value={ {{contract_data.initRules.passIn.[0]}}    }
+              onChange={(event) => set{{contract_data.initRules.passIn.[0]}}(event.target.value)}
               disabled={sendStatus === 'Sending'}
             />
           </p>
@@ -65,6 +123,10 @@ export default function Send() {
           </p>
           <p>{errorMessage && errorMessage}</p>
         </div>
+
+
+
+        {{/if}}
       </form>
     )
   } else {

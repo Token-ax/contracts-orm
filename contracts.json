@@ -1,22 +1,58 @@
 {
-  "contracts": {
-    "Tweets": {
-      "fields": {
-        "timestamp": "uint",
-        "text": "string",
-        "sender": "address"
-      },
-      "initRules": {
-        "passIn": ["text"],
-        "auto": {
-          "sender": "tx.origin",
-          "timestamp": "block.timestamp"
+  "contracts":{
+     "Tweets":{
+        "fields":{
+           "timestamp":"uint",
+           "text":"string",
+           "sender":"address"
+        },
+        "initRules":{
+           "passIn":[
+              "text"
+           ],
+           "auto":{
+              "sender":"tx.origin",
+              "timestamp":"block.timestamp"
+           }
+        },
+        "writeRules":{
+           
+        },
+        "readRules":{
+           "gets":[
+              "text",
+              "timestamp",
+              "sender"
+           ]
         }
-      },
-      "writeRules": {},
-      "readRules": {
-        "gets": ["text", "timestamp", "sender"]
-      }
-    }
+     },
+     "Recipes":{
+        "fields":{
+           "timestamp":"uint",
+           "title":"string",
+           "description":"string",
+           "sender":"address"
+        },
+        "initRules":{
+           "passIn":[
+              "title","description"
+           ],
+           "auto":{
+              "sender":"tx.origin",
+              "timestamp":"block.timestamp"
+           }
+        },
+        "writeRules":{
+           
+        },
+        "readRules":{
+           "gets":[
+              "title",
+              "description",
+              "timestamp",
+              "sender"
+           ]
+        }
+     }
   }
 }

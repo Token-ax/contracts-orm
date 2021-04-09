@@ -4,8 +4,8 @@ const web3 = new Web3('https://chain.tokenhost.com');
 const Handlebars = require('handlebars')
 
 
-const bytecode = fs.readFileSync('/Users/mikeseiler/dev/tokenhost/tokenhost-tweet/contracts/App_sol_App.bin','utf8');
-var abi = JSON.parse(fs.readFileSync('/Users/mikeseiler/dev/tokenhost/tokenhost-tweet/contracts/App_sol_App.json', 'utf8'));
+const bytecode = fs.readFileSync('App_sol_App.bin','utf8');
+var abi = JSON.parse(fs.readFileSync('App_sol_App.json', 'utf8'));
 
 async function main(){
   const ganacheAccounts = await web3.eth.getAccounts();

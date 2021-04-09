@@ -29,6 +29,8 @@ let ViewTemplate = Handlebars.compile(
 
 for (var contract in contracts.contracts) {
   console.log('c', contract)
+  const contract_data = contracts.contracts[contract]
+  console.log(contract_data)
   fs.writeFileSync(`site/pages/${contract}.js`, page_template({ contract }))
 
   try {
@@ -37,14 +39,14 @@ for (var contract in contracts.contracts) {
 
   fs.writeFileSync(
     `site/components/${contract}/Add.js`,
-    AddTemplate({ contract }),
+    AddTemplate({ contract, contract_data }),
   )
   fs.writeFileSync(
     `site/components/${contract}/Index.js`,
-    IndexTemplate({ contract:contract }),
+    IndexTemplate({contract, contract_data }),
   )
   fs.writeFileSync(
     `site/components/${contract}/View.js`,
-    ViewTemplate({ contract }),
+    ViewTemplate({ contract, contract_data }),
   )
 }
