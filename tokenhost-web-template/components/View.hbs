@@ -7,11 +7,11 @@ export default (props) => {
 <section className='hero is-primary mb-6'>
   <div className='hero-body'>
     <div className='container'>
-      <div class='columns'>
-        <div class='column is-one-quarter'>
+      <div className='columns'>
+        <div className='column is-one-quarter'>
           <User sender={data.sender} key={props.key} />
         </div>
-        <div class='column'>
+        <div className='column'>
           {{#each contract_data.initRules.passIn}}
             <h1 className='title'>
               {{this}}
