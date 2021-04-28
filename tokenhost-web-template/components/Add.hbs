@@ -9,9 +9,6 @@ export default function Send() {
     const [{{this}}, set{{this}}] = useState() {{! loop over the pass in elements contract_data.initRules.passIn}}
   {{/each}}
 
-
-
-
   const [errorMessage, setErrorMessage] = useState()
   const [sendStatus, setSendStatus] = useState()
   const [user, setUser] = useState(false)
@@ -68,7 +65,6 @@ export default function Send() {
               name="{{this}}"
               value={ {{this}}    }
               onChange={(event) => set{{this}}(event.target.value)}
-
             />
           </div>
         </div>

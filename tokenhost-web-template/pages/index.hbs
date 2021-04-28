@@ -1,19 +1,92 @@
-import React, { Component, useEffect, useState } from 'react'
+import React, { Component } from 'react'
+import TimeAgo from 'react-timeago'
+import User from '../components/User.js'
 
-import { setupAccounts } from '../helpers/Web3Helper'
+import { setupAccounts, w3, contractws } from '../helpers/Web3Helper'
 
-export default (props) => {
-  useEffect(() => {
-    setupAccounts()
-  }, [])
+{{#each contracts}} 
+  import View{{@key}} from '../components/{{@key}}/View.js'
+{{/each}}
 
-  return (
-    <div className="container">
+function zip(arr1, arr2, out = {}) {
+  arr1.map((val, idx) => {
+    out[val] = arr2[idx]
+  })
+  return out
+}
+
+export default class Index extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
     {{#each contracts}} 
-      <div className="buttons">
-        <a className="button is-warning has-text-white"  href="/{{@key}}">{{@key}}</a> 
+      messages_{{@key}}_count: 0,
+      messages_{{@key}}: null,
+    {{/each}}
+    }
+  }
+
+  async setUpListeners() {
+    var that = this
+    contractws.events.allEvents(
+      'allEvents',
+      {
+        fromBlock: 'latest',
+      },
+      async function (err, data) {
+        await that.fetch()
+      },
+    )
+  }
+
+  async componentDidMount() {
+    setupAccounts()
+    await this.fetchMessages()
+    await this.setUpListeners()
+  }
+
+  async fetchMessages() {
+    {{#each contracts}}
+      var messages_{{@key}}_count = await contractws.methods.get_{{@key}}_list_length().call()
+      this.setState({ messages_{{@key}}_count: messages_{{@key}}_count })
+
+      if(messages_{{@key}}_count > 0 ){
+        const offset_{{@key}} = messages_{{@key}}_count - 1
+        var messages = await contractws.methods.get_last_{{@key}}_N(1, offset_{{@key}}).call()
+
+        var value = []
+        var keys = []
+        {{#each this.readRules.gets}}
+          keys.push(`{{this}}`)
+          value.push(messages[{{@key}}][0])          
+        {{/each}}
+
+        var msg = zip(keys,value)
+
+        this.setState({ messages_{{@key}}: msg })
+      }
+    {{/each}}
+  }
+
+  render() {
+    return (
+      <div className="container">
+      {{#each contracts}} 
+        <nav className="panel is-primary">
+          <p className="panel-heading">
+              <span className="bd-snippet-tag bd-is-example"><a className="has-text-white" href="/{{@key}}">{{@key}}</a> </span>
+              <span className="tag">{this.state.messages_{{@key}}_count}</span>
+          </p>
+          <div className="panel-block">
+          {
+            this.state.messages_{{@key}} && (
+              <View{{@key}} data={ this.state.messages_{{@key}} } />
+            )
+          }
+          </div>
+        </nav>
+      {{/each}}
       </div>
- {{/each}}
-    </div>
-  )
+    )
+  }
 }

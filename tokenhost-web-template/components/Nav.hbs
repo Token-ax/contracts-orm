@@ -58,6 +58,15 @@ export default class TheNav extends Component {
             </Link>
           </div>
 
+          {{#each contracts}}
+            <div className="navbar-item ">
+              <Link href="/{{@key}}">
+                <a className="button is-primary">
+                  <span>{{@key}}</span>
+                </a>
+              </Link>
+            </div>
+          {{/each}}
 
           <div className="navbar-item ">
             {this.state.signedIn ? (

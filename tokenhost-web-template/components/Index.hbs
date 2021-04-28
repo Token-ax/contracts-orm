@@ -69,6 +69,7 @@ console.log(messages_count)
    
       var messages = await contractws.methods.get_last_{{contract
 }}_N(count, offset).call()
+console.log(messages);
       for(var i = messages[0].length-1; i>-1 ; i--){
         var value = []
         for(var key in messages){
@@ -118,7 +119,7 @@ keys.push(`id`)
     return (
 <div>
   {this.state.publicMessages.data.map((data, index) => (
-  <View key={data.id} data={data} />
+  <View key={index} data={data} />
   ))}
 
   <Pagination
