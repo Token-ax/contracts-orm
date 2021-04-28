@@ -27,6 +27,10 @@ let ViewTemplate = Handlebars.compile(
   fs.readFileSync('tokenhost-web-template/components/View.hbs', 'utf-8'),
 )
 
+let PagerTemplate = Handlebars.compile(
+  fs.readFileSync('tokenhost-web-template/components/Pager.hbs', 'utf-8'),
+)
+
 for (var contract in contracts.contracts) {
   console.log('c', contract)
   const contract_data = contracts.contracts[contract]
@@ -48,5 +52,9 @@ for (var contract in contracts.contracts) {
   fs.writeFileSync(
     `site/components/${contract}/View.js`,
     ViewTemplate({ contract, contract_data }),
+  )
+  fs.writeFileSync(
+    `site/components/${contract}/Pager.js`,
+    PagerTemplate({ contract, contract_data }),
   )
 }

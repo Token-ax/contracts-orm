@@ -8,10 +8,11 @@
     "build": "next build",
     "start": "next start",
     "prettier": "find -type f -name   '*.{js,json,css,md}' -exec find prettier --single-quote --write",
-    "hbs":"hbs --data ./contracts.json --stdout  ./template_file.hbs  "
+    "hbs": "hbs --data ./contracts.json --stdout  ./template_file.hbs  "
   },
   "dependencies": {
     "bulma": "^0.9.1",
+    "bulma-pagination-react": "^0.1.1",
     "ethjs-provider-signer": "^0.1.4",
     "firebase": "^7.23.0",
     "fs": "^0.0.1-security",
